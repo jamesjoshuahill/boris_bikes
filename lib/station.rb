@@ -1,5 +1,4 @@
 require_relative 'bike'
-require_relative 'garage'
 
 class Station
   attr_reader :capacity, :location, :current_bikes
@@ -9,7 +8,7 @@ class Station
     @current_bikes = {}
   end
 
-  def put_back(bike)
+  def put_back_working(bike)
     @current_bikes[bike] = 'working' if has_a_space?
   end
 
@@ -19,13 +18,13 @@ class Station
       garage.receive_broken_bike_report(bike, self)
     end
   end
-  
-  def has_a_space?
-    spaces > 0
-  end
 
   def spaces
     @capacity - @current_bikes.length
+  end
+  
+  def has_a_space?
+    spaces > 0
   end
 
   def list_of_bike_ids
@@ -33,7 +32,31 @@ class Station
   end
 
   def broken_bikes
-    @current_bikes.select { |bike, status| status == 'broken' }
+    @current_bikes.select { |bike, status| status == 'broken' }.keys
+  end
+
+  def working_bikes
+    @current_bikes.select { |bike, status| status == 'working' }.keys
+  end
+
+  def hire_a_bike
+    if has_a_working_bike?
+      bike = working_bikes.pop
+      @current_bikes.delete(bike)
+      return bike
+    end
+  end
+
+  def has_a_working_bike?
+    not working_bikes.empty?
+  end
+
+  def has_a_broken_bike?
+    not broken_bikes.empty?
+  end
+
+  def collect_broken(bike_id)
+    @current_bikes.select { |bike, status| bike.id == bike_id }.keys.first
   end
 
 end
