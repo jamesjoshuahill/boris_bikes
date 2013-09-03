@@ -1,7 +1,7 @@
 class Bike
-  attr_reader :serial_number
+  attr_reader :id
 
-  def initialize(serial_number)
-    @serial_number = serial_number
+  def initialize(id)
+    @id = id
   end
 end
