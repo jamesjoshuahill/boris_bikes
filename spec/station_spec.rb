@@ -44,7 +44,7 @@ describe Station do
   context 'should know about docked bikes and' do
     it 'list all their ids' do
       station.put_back_working(bike1)
-      station.put_back_working(bike2)
+      station.put_back_broken(bike2, garage)
 
       expect(station.list_of_bike_ids).to eq ['1001', '1002']
     end
@@ -80,11 +80,11 @@ describe Station do
     it 'a working bike' do
       station.put_back_working(bike1)
 
-      expect(station.current_bikes).to include bike1
+      expect(station.working_bikes).to include bike1
     end
 
     it 'a broken bike and report it to the Garage' do
-      garage.should_receive(:receive_broken_bike_report).with bike1, station
+      garage.should_receive(:receive_broken_bike_report).with bike1.id, station.location
       station.put_back_broken(bike1, garage)
 
       expect(station.broken_bikes).to include bike1
@@ -96,14 +96,14 @@ describe Station do
       small_station.put_back_working(bike1)
       small_station.put_back_working(bike2)
 
-      expect(small_station.current_bikes).not_to include bike2
+      expect(small_station.working_bikes).not_to include bike2
     end
 
     it 'a broken bike' do
       small_station.put_back_broken(bike1, garage)
       small_station.put_back_broken(bike2, garage)
 
-      expect(small_station.current_bikes).not_to include bike2
+      expect(small_station.broken_bikes).not_to include bike2
     end
   end
 
