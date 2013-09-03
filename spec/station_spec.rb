@@ -4,7 +4,7 @@ describe Station do
   let(:station0) { Station.new(20, 'City Road') }
   let(:station1) { Station.new(15, 'Old Street') }
   let(:small_station) { Station.new(1, 'Small station') }
-  let(:bike) { double Bike }
+  let(:bike1) { double Bike }
 
   it 'has a capacity' do
     expect(station0.capacity).to eq 20 
@@ -17,12 +17,12 @@ describe Station do
   end
 
   it 'should put back a bike if there is a space' do
-    station0.put_back(bike)
-    expect(station0.current_bikes).to include bike
+    station0.put_back(bike1)
+    expect(station0.current_bikes).to include bike1
   end
 
   it 'should not put back a bike if there is no space' do
-    small_station.put_back(bike)
+    small_station.put_back(bike1)
     bike2 = double Bike
     small_station.put_back(bike2)
     expect(small_station.current_bikes).not_to include bike2
@@ -33,7 +33,27 @@ describe Station do
   end
 
   it 'should know if there is no space for a bike' do
-    small_station.put_back(bike)
+    small_station.put_back(bike1)
     expect(small_station.has_a_space?).to be_false
+  end
+
+  it 'should know how many spaces are available' do
+    expect(station0.spaces).to eq 20
+    expect(station1.spaces).to eq 15
+    station0.put_back(bike1)
+    expect(station0.spaces).to eq 19
+  end
+
+  it 'should list the bikes at the station' do
+    bike3 = double Bike, serial_number: '1003'
+    bike4 = double Bike, serial_number: '1004'
+    station0.put_back(bike3)
+    station0.put_back(bike4)
+    expect(station0.list_of_bikes).to eq ['1003', '1004']
+  end
+
+  it 'should mark a bike as broken' do
+    station0.put_back_broken(bike1)
+    expect(station0.broken_bikes).to include bike1
   end
 end
