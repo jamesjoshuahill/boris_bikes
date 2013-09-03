@@ -5,6 +5,7 @@ describe Station do
   let(:station1) { Station.new(15, 'Old Street') }
   let(:small_station) { Station.new(1, 'Small station') }
   let(:bike1) { double Bike }
+  let(:garage) { double :Garage }
 
   it 'has a capacity' do
     expect(station0.capacity).to eq 20 
@@ -44,16 +45,18 @@ describe Station do
     expect(station0.spaces).to eq 19
   end
 
-  it 'should list the bikes at the station' do
-    bike3 = double Bike, serial_number: '1003'
-    bike4 = double Bike, serial_number: '1004'
+  it 'should list all the bike ids at the station' do
+    bike3 = double Bike, id: '1003'
+    bike4 = double Bike, id: '1004'
     station0.put_back(bike3)
     station0.put_back(bike4)
-    expect(station0.list_of_bikes).to eq ['1003', '1004']
+    expect(station0.list_of_bike_ids).to eq ['1003', '1004']
   end
 
-  it 'should mark a bike as broken' do
-    station0.put_back_broken(bike1)
+  it 'should mark a bike as broken and report it to Garage' do
+    garage.should_receive(:receive_broken_bike_report).with bike1, station0
+    station0.put_back_broken(bike1, garage)
     expect(station0.broken_bikes).to include bike1
   end
+
 end
