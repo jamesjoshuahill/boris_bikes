@@ -14,11 +14,20 @@ class User
     @my_bike
   end
 
-  def return_my_bike_to(station)
+  def return_working_bike_to(station)
     if station.has_a_space?
       station.put_back_working(@my_bike) 
       @my_bike = nil
     end
   end
+
+  def return_broken_bike_to(station)
+    if station.has_a_space?
+      station.put_back_broken(@my_bike)
+      @my_bike = nil
+    end 
+
+  end 
+
 
 end
