@@ -1,10 +1,8 @@
-require_relative 'bike'
-
 class Station
   attr_reader :capacity, :location
 
-  def initialize(capacity, location)
-    @capacity, @location = capacity, location
+  def initialize(capacity, location, garage)
+    @capacity, @location, @garage = capacity, location, garage
     @current_bikes = { :working => [], :broken => [] }
   end
 
@@ -45,10 +43,10 @@ class Station
     working_bikes << bike if has_a_space?
   end
 
-  def put_back_broken(bike, garage)
+  def put_back_broken(bike)
     if has_a_space?
       broken_bikes << bike
-      garage.receive_broken_bike_report(bike.id, location)
+      @garage.receive_broken_bike_report(bike.id, location)
     end
   end
 

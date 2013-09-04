@@ -1,11 +1,11 @@
 require 'station'
 
 describe Station do 
-  let(:station) { Station.new(20, 'City Road') }
-  let(:small_station) { Station.new(1, 'Small station') }
-  let(:bike1) { double Bike, id: '1001' }
-  let(:bike2) { double Bike, id: '1002' }
   let(:garage) { double :Garage, receive_broken_bike_report: nil }
+  let(:station) { Station.new(20, 'City Road', garage) }
+  let(:small_station) { Station.new(1, 'Small station', garage) }
+  let(:bike1) { double :Bike, id: '1001' }
+  let(:bike2) { double :Bike, id: '1002' }
 
   context 'should have a' do
     it 'capacity' do
@@ -44,7 +44,7 @@ describe Station do
   context 'should know about docked bikes and' do
     it 'list all their ids' do
       station.put_back_working(bike1)
-      station.put_back_broken(bike2, garage)
+      station.put_back_broken(bike2)
 
       expect(station.list_of_bike_ids).to eq ['1001', '1002']
     end
@@ -63,7 +63,7 @@ describe Station do
       end
 
       it 'any broken bikes' do
-        station.put_back_broken(bike1, garage)
+        station.put_back_broken(bike1)
 
         # expect(station.has_a_broken_bike?).to be_true
         expect(station).to have_a_broken_bike
@@ -85,7 +85,7 @@ describe Station do
 
     it 'a broken bike and report it to the Garage' do
       garage.should_receive(:receive_broken_bike_report).with bike1.id, station.location
-      station.put_back_broken(bike1, garage)
+      station.put_back_broken(bike1)
 
       expect(station.broken_bikes).to include bike1
     end
@@ -100,8 +100,8 @@ describe Station do
     end
 
     it 'a broken bike' do
-      small_station.put_back_broken(bike1, garage)
-      small_station.put_back_broken(bike2, garage)
+      small_station.put_back_broken(bike1)
+      small_station.put_back_broken(bike2)
 
       expect(small_station.broken_bikes).not_to include bike2
     end
@@ -124,7 +124,7 @@ describe Station do
     end
 
     it 'but not if there are only broken bikes' do
-      station.put_back_broken(bike1, garage)
+      station.put_back_broken(bike1)
 
       expect(station.hire_a_bike).to eq nil
     end
@@ -132,7 +132,7 @@ describe Station do
 
   context 'release broken bikes' do
     it 'when a van requests a broken bike' do
-      station.put_back_broken(bike1, garage)
+      station.put_back_broken(bike1)
 
       expect(station.collect_broken(bike1.id)).to eq bike1
     end
