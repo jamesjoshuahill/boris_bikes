@@ -30,8 +30,8 @@ describe Van do
   end
 
   it 'should put back repaired bikes if there are enough spaces' do
-    station.should_receive(:capacity).and_return 10
-    station.should_receive(:spaces).and_return 5
+    station.should_receive(:has_space_for_repaired_bikes?).and_return true
+    station.should_receive(:spaces_for_repaired_bikes).and_return 3
     van.collect_repaired([bike1, bike2])
     station.should_receive(:put_back_working).with bike1
     station.should_receive(:put_back_working).with bike2

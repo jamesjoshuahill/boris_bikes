@@ -30,6 +30,17 @@ class Station
     spaces > 0
   end
 
+  def spaces_for_repaired_bikes
+    spaces_to_keep_open = (@capacity * 0.3).ceil
+    spaces_to_fill = spaces - spaces_to_keep_open
+    return spaces_to_fill if spaces_to_fill > 0
+    return 0
+  end
+
+  def has_space_for_repaired_bikes?
+    spaces_for_repaired_bikes > 0
+  end
+
   def has_a_working_bike?
     not working_bikes.empty?
   end

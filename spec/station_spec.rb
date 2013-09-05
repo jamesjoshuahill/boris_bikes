@@ -39,6 +39,16 @@ describe Station do
       station.put_back_working(bike1)
       expect(station.spaces).to eq 19
     end
+
+    it 'how many repaired bikes it has space for' do
+      expect(station.spaces_for_repaired_bikes).to eq 14
+      expect(small_station.spaces_for_repaired_bikes).to eq 0
+    end
+
+    it 'if it has any spaces for repaired bikes' do
+      expect(station.has_space_for_repaired_bikes?).to be_true
+      expect(small_station.has_space_for_repaired_bikes?).to be_false
+    end
   end
 
   context 'should know about docked bikes and' do

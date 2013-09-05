@@ -22,9 +22,8 @@ class Van
   end
 
   def put_back_repaired_bikes(station)
-    repaired_bikes_wanted = (station.spaces - station.capacity * 0.3).to_i
-    if repaired_bikes_wanted > 0
-      repaired_bikes_wanted.times do
+    if station.has_space_for_repaired_bikes?
+      station.spaces_for_repaired_bikes.times do
         station.put_back_working(@repaired_bikes.pop)
         break if @repaired_bikes.count == 0
       end
