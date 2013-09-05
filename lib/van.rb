@@ -1,6 +1,5 @@
 class Van
-  attr_reader :garage, :orders
-  attr_accessor :bikes
+  attr_reader :garage, :orders, :bikes
 
   def initialize(garage)
     @garage = garage
