@@ -1,10 +1,11 @@
 class Van
-  attr_reader :garage, :orders, :bikes
+  attr_reader :garage, :orders, :broken_bikes, :repaired_bikes
 
   def initialize(garage)
     @garage = garage
     @orders = []
-    @bikes = []
+    @broken_bikes = []
+    @repaired_bikes = []
   end
 
   def add_order(bike_id, station)
@@ -12,12 +13,27 @@ class Van
   end
 
   def collect_broken_bike(bike_id, station)
-    @bikes << station.collect_broken(bike_id)
+    @broken_bikes << station.collect_broken(bike_id)
+    put_back_repaired_bikes(station) if has_repaired_bikes?
+  end
+
+  def has_repaired_bikes?
+    not @repaired_bikes.empty?
+  end
+
+  def put_back_repaired_bikes(station)
+    repaired_bikes_wanted = (station.spaces - station.capacity * 0.3).to_i
+    if repaired_bikes_wanted > 0
+      repaired_bikes_wanted.times do
+        station.put_back_working(@repaired_bikes.pop)
+        break if @repaired_bikes.count == 0
+      end
+    end
   end
 
   def deliver_broken_bikes
-    garage.receive_broken_bikes(@bikes)
-    @bikes = []
+    garage.receive_broken_bikes(@broken_bikes)
+    @broken_bikes = []
   end
 
   def fulfill_orders
@@ -26,6 +42,10 @@ class Van
     end
     @orders = []
     deliver_broken_bikes
+  end
+
+  def collect_repaired(bikes)
+    @repaired_bikes.concat bikes
   end
 
 end

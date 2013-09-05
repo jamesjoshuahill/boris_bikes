@@ -38,8 +38,18 @@ describe Garage do
     expect(garage.repaired_bikes).to match_array [bike1, bike2]
   end
 
-  xit 'should allocate repaired bikes to stations' do
+  it 'should put repaired bikes on the van' do
+    garage.receive_broken([bike1, bike2])
+    garage.fix_broken_bikes
+    van.should_receive(:collect_repaired).with([bike1, bike2])
+    garage.put_repaired_bikes_on_van
 
+    expect(garage.repaired_bikes).to be_empty
   end
+
+  it 'should send the van on its rounds'
+  # garage.send_orders_to_van
+  # garage.put_repaired_bikes_on_van
+  # van.fulfill_orders
 
 end

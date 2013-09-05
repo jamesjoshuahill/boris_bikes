@@ -28,4 +28,10 @@ class Garage
     @broken_bikes = []
   end
 
+  def put_repaired_bikes_on_van
+    @van.collect_repaired(@repaired_bikes)
+    @repaired_bikes = []
+  end
+
+
 end
