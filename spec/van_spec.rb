@@ -29,7 +29,7 @@ describe Van do
     before(:each) do
       station.should_receive(:collect_broken).with((bike1.id)).and_return bike1
       station.should_receive(:collect_broken).with((bike2.id)).and_return bike2
-      garage.should_receive(:deliver_broken_bikes).with([bike1, bike2])
+      garage.should_receive(:receive_broken_bikes).with([bike1, bike2])
     end
 
     it 'should deliver all broken bikes to the garage' do
