@@ -84,7 +84,7 @@ describe Station do
     end
 
     it 'a broken bike and report it to the Garage' do
-      garage.should_receive(:receive_broken_bike_report).with bike1.id, station.location
+      garage.should_receive(:receive_broken_bike_report).with bike1.id, station
       station.put_back_broken(bike1)
 
       expect(station.broken_bikes).to include bike1

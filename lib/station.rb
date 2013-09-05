@@ -46,7 +46,7 @@ class Station
   def put_back_broken(bike)
     if has_a_space?
       broken_bikes << bike
-      @garage.receive_broken_bike_report(bike.id, location)
+      @garage.receive_broken_bike_report(bike.id, self)
     end
   end
 
