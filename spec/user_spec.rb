@@ -14,7 +14,6 @@ describe User do
   it 'should hire a bike from a station with a working bike' do
     station.should_receive(:has_a_working_bike?).and_return true
     station.should_receive(:hire_a_bike).and_return bike
-    
     boris.hire_a_bike_from(station)
 
     expect(boris).to be_riding_a_bike
@@ -23,51 +22,50 @@ describe User do
 
   it 'should not hire a bike from a station with no working bikes' do
     station.should_receive(:has_a_working_bike?).and_return false
-    
     boris.hire_a_bike_from(station)
 
     expect(boris).not_to be_riding_a_bike
   end
 
-  context 'when riding a bike' do
+  context 'when riding a bike to a station' do
     let(:station) { double :station, has_a_working_bike?: true, hire_a_bike: bike }
+    before(:each) { boris.hire_a_bike_from(station) }
 
-    before(:each) do
-      boris.hire_a_bike_from(station)
+    context 'with spaces' do
+      before(:each) { station.should_receive(:has_a_space?).and_return true }
+
+      it 'should return a working bike' do 
+        station.should_receive(:put_back_working).with(bike)
+        boris.return_working_bike_to(station)
+
+        expect(boris).not_to be_riding_a_bike
+      end
+
+      it 'should return a broken bike' do
+        station.should_receive(:put_back_broken).with(bike)
+        boris.return_broken_bike_to(station)
+
+        expect(boris).not_to be_riding_a_bike
+      end
+
     end
 
-    it 'should return a working bike if the station has a space' do 
-      station.should_receive(:has_a_space?).and_return true
-      station.should_receive(:put_back_working).with(bike)
+    context 'with no spaces' do
+      before(:each) { station.should_receive(:has_a_space?).and_return false }
 
-      boris.return_working_bike_to(station)
+      it 'should not return a working bike' do
+        boris.return_working_bike_to(station)
 
-      expect(boris).not_to be_riding_a_bike
-    end
+        expect(boris).to be_riding_a_bike
+      end
 
-    it 'should not return a working bike if the station has no spaces' do
-      station.should_receive(:has_a_space?).and_return false
 
-      boris.return_working_bike_to(station)
+      it 'should not return a broken bike' do
+        boris.return_broken_bike_to(station)
 
-      expect(boris).to be_riding_a_bike
-    end
+        expect(boris).to be_riding_a_bike
+      end
 
-    it 'should return a broken bike if the station has a space' do
-      station.should_receive(:has_a_space?).and_return true
-      station.should_receive(:put_back_broken).with(bike)
-
-      boris.return_broken_bike_to(station)
-
-      expect(boris).not_to be_riding_a_bike
-    end
-
-    it 'should not return a broken bike if the station has no spaces' do
-      station.should_receive(:has_a_space?).and_return false
-
-      boris.return_broken_bike_to(station)
-
-      expect(boris).to be_riding_a_bike
     end
 
   end
