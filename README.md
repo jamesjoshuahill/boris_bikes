@@ -2,8 +2,8 @@ Boris Bikes
 ===========
 
 This task was set by Enrique Comba Riepenhausen (@ecomba) whilst learning to
-code at Makers Academy. The purpose was to build a larger object oriented model
-in Ruby using TDD.
+code at Makers Academy. The purpose was to build an object oriented model
+of the Travel for London Cycle Hire scheme.
 
 I paired with Yuin Huang (github.com/Yuin23). We started by writing CRC cards
 (Class, Responsibilities, Collaborators) with pen and paper. Then we used RSpec
