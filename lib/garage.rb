@@ -1,4 +1,5 @@
 class Garage
+
   attr_reader :broken_bike_reports, :broken_bikes, :repaired_bikes
 
   def initialize(van)
@@ -32,6 +33,5 @@ class Garage
     @van.collect_repaired(@repaired_bikes)
     @repaired_bikes = []
   end
-
 
 end

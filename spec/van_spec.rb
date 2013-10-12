@@ -1,6 +1,7 @@
 require 'van'
 
 describe Van do
+
   let(:garage) { double :Garage }
   let(:van) { Van.new(garage) }
   let(:station) { double :Station }
@@ -19,6 +20,7 @@ describe Van do
 
   it 'should collect a broken bike from a station' do
     station.should_receive(:collect_broken).with((bike1.id)).and_return bike1
+
     van.collect_broken_bike(bike1.id, station)
 
     expect(van.broken_bikes).to include bike1
@@ -26,6 +28,7 @@ describe Van do
 
   it 'should collect a repaired bike from the garage' do
     van.collect_repaired([bike1, bike2])
+
     expect(van.repaired_bikes).to match_array [bike1, bike2]
   end
 
@@ -55,6 +58,7 @@ describe Van do
     it 'should deliver all broken bikes to the garage' do
       van.collect_broken_bike(bike1.id, station)
       van.collect_broken_bike(bike2.id, station)
+      
       van.deliver_broken_bikes
 
       expect(van.broken_bikes).to be_empty
@@ -63,6 +67,7 @@ describe Van do
     it 'should fulfill all its orders and deliver the broken bikes to the garage' do
       van.add_order(bike1.id, station)
       van.add_order(bike2.id, station)
+
       van.fulfill_orders
 
       expect(van.orders).to be_empty

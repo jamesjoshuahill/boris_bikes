@@ -1,6 +1,7 @@
 require 'garage'
 
 describe Garage do
+
   let(:van) { double :Van }
   let(:garage) { Garage.new(van) }
   let(:station) { double :Station }
@@ -9,9 +10,10 @@ describe Garage do
   
   it 'should receive broken bike reports from stations' do
     garage.receive_broken_bike_report('1001', station)
+    expect(garage.broken_bike_reports).to include ['1099', station]
+
     garage.receive_broken_bike_report('1099', station)
     expect(garage.broken_bike_reports).to include ['1001', station]
-    expect(garage.broken_bike_reports).to include ['1099', station]
   end
 
   it 'should send orders to the van' do
@@ -19,6 +21,7 @@ describe Garage do
     garage.receive_broken_bike_report('1099', station)
     van.should_receive(:add_order).with('1001', station)
     van.should_receive(:add_order).with('1099', station)
+
     garage.send_orders_to_van
 
     expect(garage.broken_bike_reports).to be_empty
@@ -32,6 +35,7 @@ describe Garage do
 
   it 'should fix broken bikes' do
     garage.receive_broken([bike1, bike2])
+
     garage.fix_broken_bikes
 
     expect(garage.broken_bikes).to be_empty
@@ -42,6 +46,7 @@ describe Garage do
     garage.receive_broken([bike1, bike2])
     garage.fix_broken_bikes
     van.should_receive(:collect_repaired).with([bike1, bike2])
+
     garage.put_repaired_bikes_on_van
 
     expect(garage.repaired_bikes).to be_empty

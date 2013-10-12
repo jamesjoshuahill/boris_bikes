@@ -1,4 +1,5 @@
 class Van
+
   attr_reader :garage, :orders, :broken_bikes, :repaired_bikes
 
   def initialize(garage)

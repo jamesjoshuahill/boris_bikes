@@ -1,4 +1,5 @@
 class Station
+
   attr_reader :capacity, :location
 
   def initialize(capacity, location, garage)
@@ -48,7 +49,6 @@ class Station
   def has_a_broken_bike?
     not broken_bikes.empty?
   end
-
 
   def put_back_working(bike)
     working_bikes << bike if has_a_space?

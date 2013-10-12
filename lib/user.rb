@@ -1,4 +1,5 @@
 class User
+
   attr_reader :name, :my_bike
 
   def initialize(name)
