@@ -51,7 +51,7 @@ Here are our CRC cards:
 | prevent broken Bikes from being hired            |               |
 | allow the Van to collect broken Bikes            |               |
 
-#### Garage
+#### Class Garage
 
 | Responsibilities                                 | Collaborators |
 | :----------------------------------------------- | :------------ |
@@ -62,3 +62,14 @@ Here are our CRC cards:
 | have a stock of Bikes                            |               |
 | put working Bikes on the Van                     |               |
 | send the Van out to Stations with working Bikes  |               |
+
+#### Class Van
+
+| Responsibilities                                     | Collaborators |
+| :--------------------------------------------------- | :------------ |
+| belong to the Garage                                 | Garage        | 
+| receive orders from the Garage                       | Station       |
+| collect broken Bikes from Stations                   | Bike          |
+| deliver broken Bikes to the Garage                   |               |
+| collect working Bikes from the Garage                |               |
+| deliver working Bikes to Stations if there is space  |               |
