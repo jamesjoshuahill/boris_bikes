@@ -3,8 +3,9 @@ Boris Bikes
 
 ### Makers Academy - Week 3
 
-This task was set by Enrique Comba Riepenhausen (@ecomba) whilst learning to
-code at [Makers Academy](http://www.makersacademy.com). The purpose was to build
+This task was set by Enrique Comba Riepenhausen
+[@ecomba](http://twitter.com/ecomba) whilst learning to code at
+[Makers Academy](http://www.makersacademy.com). The purpose was to build
 an object oriented model based on the Travel for London Cycle Hire scheme.
 
 I paired with [Yuin Huang](https://github.com/yuin23). We started by writing CRC cards
